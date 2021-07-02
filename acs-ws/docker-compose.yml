@@ -1,0 +1,48 @@
+version: "3.4"
+
+x-args: &args
+   USER_NAME: ${USER_NAME}
+   GROUP_NAME: ${GROUP_NAME}
+   USER_ID: ${USER_ID}
+   GROUP_ID: ${GROUP_ID}
+
+x-env: &env
+   - DISPLAY=${DISPLAY}
+
+x-volumes: &volumes
+   - ${REPO_DIR}:/Repos
+   - ${ALMA_DIR}:/alma
+   - ${HOME_DIR}:/home/${USER_NAME}
+   - /tmp/.X11-unix:/tmp/.X11-unix
+
+x-acs-images: &common
+   build:
+      dockerfile: Dockerfile
+      context: ./acs
+      args:
+         *args
+   security_opt:
+      - seccomp:unconfined
+   image: acs-ws
+   environment:
+      *env
+   volumes:
+      *volumes
+   working_dir: /home/${USER_NAME}
+   ulimits:
+      nproc: 62424
+      nofile:
+         soft: 64000
+         hard: 524288
+   dns:
+     - 8.8.8.8
+     - 4.4.4.4
+   network_mode: host
+   extra_hosts:
+      - acs:127.0.1.1
+   hostname: acs
+   container_name: acs
+
+services:
+   acs:
+      <<: *common
