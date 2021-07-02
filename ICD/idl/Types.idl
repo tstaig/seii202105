@@ -1,0 +1,25 @@
+#ifndef _TYPES_IDL_
+#define _TYPES_IDL_
+
+#pragma prefix "alma"
+
+#include <acscommon.idl>
+
+module Observatory {
+    enum ProjectState {READY, RUNNING, FAILED, SUCCESS};
+    struct Project {
+        //Unique Identifier
+        ACS::uLongLong uid;
+        //Project Name
+        string name;
+        //Observation time in milliseconds
+        ACS::uLongLong duration;
+        //Current state of the project
+        ProjectState state;
+        //Ranking of the project. From 1 to 3
+        ACS::uLong rank;
+    };
+    typedef sequence <Project> ProjectSeq;
+};
+
+#endif

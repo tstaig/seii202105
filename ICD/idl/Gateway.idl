@@ -1,0 +1,14 @@
+#ifndef _GATEWAY_IDL_
+#define _GATEWAY_IDL_
+
+#pragma prefix "alma"
+
+#include <Service.idl>
+#include <acscomponent.idl>
+
+module Observatory {
+    interface Gateway : ACS::ACSComponent, Service {
+    };
+};
+
+#endif

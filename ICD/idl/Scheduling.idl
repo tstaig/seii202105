@@ -1,0 +1,18 @@
+#ifndef _SCHEDULING_IDL_
+#define _SCHEDULING_IDL_
+
+#pragma prefix "alma"
+
+#include <Types.idl>
+#include <Service.idl>
+#include <acscomponent.idl>
+#include <SchedulingErr.idl>
+
+module Observatory {
+    interface Scheduling : ACS::ACSComponent, Service {
+        //Returns at most 'num' first projects scheduled to be observed at the time
+        ProjectSeq getNextProjects(in ACS::uLongLong num) raises (SchedulingErr::NoScheduledProjectsEx, ServiceErr::ServiceIsNotOnlineEx);
+    };
+};
+
+#endif

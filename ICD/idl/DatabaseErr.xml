@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="Alma/ACSError" xsi:schemaLocation="Alma/ACSError ACSError.xsd" name="DatabaseErr" type="52002" _prefix="alma">
+  <ErrorCode name="UIDMustBeZero" shortDescription="UID must be zero" description="When creating a new project, the UID must be zero to allow the Database to return a unique ID"/>
+  <ErrorCode name="ProjectDoesNotExist" shortDescription="Project does not exist" description="The requested project does not exist in the database">
+    <Member name="uid" type="long" description="UID of the requested project"/>
+  </ErrorCode>
+  <ErrorCode name="ProjectBeingObserved" shortDescription="Project is being observed" description="The requested project is being observed at the time">
+    <Member name="uid" type="long" description="UID of the requested project"/>
+  </ErrorCode>
+  <ErrorCode name="ProjectAlreadyObserved" shortDescription="Project is already observed" description="The requested project has already been observed">
+    <Member name="uid" type="long" description="UID of the requested project"/>
+  </ErrorCode>
+</Type>

@@ -1,0 +1,22 @@
+#ifndef _OBSERVINGMODE_IDL_
+#define _OBSERVINGMODE_IDL_
+
+#pragma prefix "alma"
+
+#include <Service.idl>
+#include <acscommon.idl>
+#include <DatabaseErr.idl>
+#include <acscomponent.idl>
+#include <ObservingModeErr.idl>
+
+module Observatory {
+    interface ObservingMode : ACS::ACSComponent, Service {
+        enum TelescopeState {STOP, READY, BUSY};
+        TelescopeState getState();
+        void startTelescope() raises (ObservingModeErr::TelescopeAlreadyStartedEx, ServiceErr::ServiceIsNotOnlineEx);
+        void stopTelescope() raises (ObservingModeErr::TelescopeAlreadyStoppedEx, ObservingModeErr::TelescopeIsBusyEx, ServiceErr::ServiceIsNotOnlineEx);
+        void observe(in ACS::uLongLong uid) raises (ObservingModeErr::TelescopeIsBusyEx, ObservingModeErr::TelescopeIsStoppedEx, ObservingModeErr::ProjectInUnexpectedStateEx, DatabaseErr::ProjectDoesNotExistEx, ServiceErr::ServiceIsNotOnlineEx);
+    };
+};
+
+#endif

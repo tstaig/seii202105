@@ -1,0 +1,32 @@
+#ifndef _DATABASE_IDL_
+#define _DATABASE_IDL_
+
+#pragma prefix "alma"
+
+#include <Types.idl>
+#include <Service.idl>
+#include <DatabaseErr.idl>
+#include <acscomponent.idl>
+
+module Observatory {
+    interface Database : ACS::ACSComponent, Service {
+        //Add a new Project. UID must be 0 so the Database assigns one. State value will be ignored
+        void addProject(in Project prj) raises (DatabaseErr::UIDMustBeZeroEx, ServiceErr::ServiceIsNotOnlineEx);
+        //Get a project by its UID
+        Project getProject(in ACS::uLongLong uid) raises (DatabaseErr::ProjectDoesNotExistEx, ServiceErr::ServiceIsNotOnlineEx);
+        //Get all available projects
+        ProjectSeq getProjects() raises (ServiceErr::ServiceIsNotOnlineEx);
+        //Update a project. State changes will be ignored
+        void updateProject(in Project prj) raises (DatabaseErr::ProjectDoesNotExistEx, DatabaseErr::ProjectBeingObservedEx, DatabaseErr::ProjectAlreadyObservedEx, ServiceErr::ServiceIsNotOnlineEx);
+        //Remove a project
+        void removeProject(in ACS::uLongLong uid) raises (DatabaseErr::ProjectDoesNotExistEx, DatabaseErr::ProjectBeingObservedEx, DatabaseErr::ProjectAlreadyObservedEx, ServiceErr::ServiceIsNotOnlineEx);
+
+	//The following methods are for maintenance work only!
+        //Force a change of state
+        void forceChangeState(in ACS::uLongLong uid, in ProjectState state) raises (DatabaseErr::ProjectDoesNotExistEx, ServiceErr::ServiceIsNotOnlineEx);
+        //Remove all projects from the database
+        void clearProjects() raises (ServiceErr::ServiceIsNotOnlineEx);
+    };
+};
+
+#endif

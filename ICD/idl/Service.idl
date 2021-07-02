@@ -1,0 +1,17 @@
+#ifndef _SERVICE_IDL_
+#define _SERVICE_IDL_
+
+#pragma prefix "alma"
+
+#include <ServiceErr.idl>
+
+module Observatory {
+    interface Service {
+        enum ServiceState {OFFLINE, INITIALIZING, ONLINE, STOPPING, ERROR};
+        void startService() raises (ServiceErr::ServiceAlreadyStartedEx, ServiceErr::ServiceIsTransitioningStatesEx, ServiceErr::ServiceInErrorStateEx);
+        void stopService() raises (ServiceErr::ServiceAlreadyStoppedEx, ServiceErr::ServiceIsTransitioningStatesEx);
+        ServiceState getServiceState();
+    };
+};
+
+#endif

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="Alma/ACSError" xsi:schemaLocation="Alma/ACSError ACSError.xsd" name="ObservingModeErr" type="52003" _prefix="alma">
+  <ErrorCode name="TelescopeAlreadyStarted" shortDescription="Telescope already started" description="The telescope has already been started"/>
+  <ErrorCode name="TelescopeAlreadyStopped" shortDescription="Telescope already stopped" description="The telescope has already been stopped or was never started"/>
+  <ErrorCode name="TelescopeIsStopped" shortDescription="Telescope is stopped" description="The telescope is stopped at the moment"/>
+  <ErrorCode name="TelescopeIsBusy" shortDescription="Telescope is busy" description="The telescope is already busy with an observation"/>
+  <ErrorCode name="ProjectInUnexpectedState" shortDescription="The project is in an unexpected state" description="The project is in an unexpected state. It was supposed to be in READY state">
+    <Member name="state" type="string" description="Actual state of the project to be observed"/>
+  </ErrorCode>
+</Type>

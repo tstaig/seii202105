@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="Alma/ACSError" xsi:schemaLocation="Alma/ACSError ACSError.xsd" name="ServiceErr" type="52001" _prefix="alma">
+  <ErrorCode name="ServiceIsNotOnline" shortDescription="Service is not in Online state" description="The service has not been initialized, so it can't be used">
+    <Member name="State" type="string" description="State the service is in at this moment"/>
+  </ErrorCode>
+  <ErrorCode name="ServiceAlreadyStarted" shortDescription="Service already started" description="The service that is being issued a start order has already been started at this point"/>
+  <ErrorCode name="ServiceAlreadyStopped" shortDescription="Service already stopped" description="The service that is being issued a stop order has already been stopped at this point or was never started at all"/>
+  <ErrorCode name="ServiceInErrorState" shortDescription="Service is in error state" description="The service has ran into an error and is no longer usable"/>
+  <ErrorCode name="ServiceIsTransitioningStates" shortDescription="Service is transitioning states" description="The service is transitioning between states at this time, please wait until it finishes">
+    <Member name="InitialState" type="string" description="State the service was before starting the transition"/>
+    <Member name="FinalState" type="string" description="State the service is aiming to reach after the transition"/>
+  </ErrorCode>
+</Type>
