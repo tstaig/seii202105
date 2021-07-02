@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Components xmlns="urn:schemas-cosylab-com:Components:1.0" xmlns:cdb="urn:schemas-cosylab-com:CDB:1.0"  xmlns:baci="urn:schemas-cosylab-com:BACI:1.0"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <e Name="GATEWAY" Code="observatory.gw.Gateway" Type="IDL:alma/Observatory/Gateway:1.0" Container="pyContainer" ImplLang="py" Default="true"/>
+      <e Name="SCHEDULING" Code="alma.Observatory.SchedulingImpl.SchedulingComponentHelper" Type="IDL:alma/Observatory/Scheduling:1.0" Container="javaContainer" ImplLang="java" Default="true"/>
+      <e Name="OBSMODE" Code="ObservingModeImpl" Type="IDL:alma/Observatory/ObservingMode:1.0" Container="cppContainer" ImplLang="cpp" Default="true"/>
+      <e Name="DATABASE" Code="observatory.db.Database" Type="IDL:alma/Observatory/Database:1.0" Container="pyContainer" ImplLang="py" Default="true"/>
+</Components>

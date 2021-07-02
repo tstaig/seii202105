@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<SimulatedComponent xmlns="urn:schemas-cosylab-com:SimulatedComponent:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <pythonImports>
+import Observatory
+        </pythonImports>
+	<initialize>
+setGlobalData('_state', Observatory.Service.OFFLINE)
+        </initialize>
+        <cleanUp>
+        </cleanUp>
+        <_corbaMethod Name="startService" Timeout="0">
+setGlobalData('_state', Observatory.Service.ONLINE)
+        </_corbaMethod>
+        <_corbaMethod Name="stopService" Timeout="0">
+setGlobalData('_state', Observatory.Service.OFFLINE)
+        </_corbaMethod>
+        </_corbaMethod>
+        </_corbaMethod>
+        <_corbaMethod Name="getServiceState" Timeout="0">
+return getGlobalData('_state')
+        </_corbaMethod>
+</SimulatedComponent>
+
