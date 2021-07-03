@@ -1,20 +1,10 @@
-# # Client stubs and definitions, such as structs, enums, etc.
-# import <Module>
-# # Skeleton infrastructure for server implementation
+import Observatory
 import Observatory__POA
- 
-# # Base component implementation
 from Acspy.Servants.ACSComponent import ACSComponent
-# # Services provided by the container to the component
 from Acspy.Servants.ContainerServices import ContainerServices
-# # Basic component lifecycle (initialize, execute, cleanUp and aboutToAbort methods)
 from Acspy.Servants.ComponentLifecycle import ComponentLifecycle
  
-#Error definitions for catching exceptions
-# import ServiceErr
-# import <Interface>Err
- 
-# # Error definitions for creating and raising exceptions
+# Error definitions for creating and raising exceptions
 import ServiceErrImpl
 import ObservingModeErrImpl
 import DatabaseErrImpl
@@ -22,13 +12,7 @@ import DatabaseErrImpl
 # custom packages
 import time
 import random
-# from telescope_state import TelescopeState
 
-# raising exceptions
-# raise <Interface>ErrImpl.<ExceptionName>ExImpl()
-
-#From IDL <Module>::<EnumName>::<VALUE>
-import Observatory
 
 class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, ContainerServices, ComponentLifecycle):
     """This component abstracts an observation."""
