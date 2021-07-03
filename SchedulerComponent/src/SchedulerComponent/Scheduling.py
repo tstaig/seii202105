@@ -12,11 +12,18 @@ from Acspy.Servants.ComponentLifecycle import ComponentLifecycle
 #Error definitions for catching exceptions
 import ServiceErr
 
+import RecurrentJob
+from datetime import timedelta
+
 class SchedulingComponent(Observatory__POA.Scheduling, ACSComponent, ContainerServices, ComponentLifecycle):
     def __init__(self):
         ACSComponent.__init__(self)
         ContainerServices.__init__(self)
         self._logger = self.getLogger()
+
+
+        self.DB_INTERVAL_IN_SECONDS = 5
+        self.SCHEDULING_INTERVAL_IN_SECONDS = 3
 
         '''
             Initialize an empty collection
@@ -28,10 +35,14 @@ class SchedulingComponent(Observatory__POA.Scheduling, ACSComponent, ContainerSe
         self._state = Observatory.Service.OFFLINE
         self._db = None
         self._observing_mode = None
+        self._db_job = None
+        self._scheduling_job = None
 
     def execute(self):
         if self._state == Observatory.Service.OFFLINE:
             self._start_services()
+            self._load_projects_job()
+            self._make_it_happend_job()
 
     def cleanUp(self):
         if self._state == Observatory.Service.ONLINE or self._state == Observatory.Service.ERROR:
@@ -55,8 +66,22 @@ class SchedulingComponent(Observatory__POA.Scheduling, ACSComponent, ContainerSe
         except:
             self._logger("Scheduling: Problem releasing observing mode component")
 
-        self._dbase = None
+        try:
+            if self._db_job:
+                self._db_job.stop()
+        except:
+            self._logger("Scheduling: Problem cancel db job")
+
+        try:
+            if self._scheduling_job:
+                self._scheduling_job.stop()
+        except:
+            self._logger("Scheduling: Problem cancel scheduling job")
+
+        self._db = None
         self._observing_mode = None
+        self._db_job = None
+        self._scheduling_job = None
 
     def getServiceState(self):
         return self._state
@@ -64,7 +89,7 @@ class SchedulingComponent(Observatory__POA.Scheduling, ACSComponent, ContainerSe
     def _start_services(self):
         self._set_state_or_die() 
 
-        ''' load components '''
+        # load components
         try:
             self._db = self.getDefaultComponent("IDL:alma/Observatory/Database:1.0")
             if self._is_offline(self._db):
@@ -76,6 +101,8 @@ class SchedulingComponent(Observatory__POA.Scheduling, ACSComponent, ContainerSe
 
         except:
             self._logger.logWarning("Scheduling: Problem loading components")
+
+        
 
     def _is_offline(self, service):
         return (service and service.getServiceState() == Observatory.Service.OFFLINE)
@@ -98,26 +125,27 @@ class SchedulingComponent(Observatory__POA.Scheduling, ACSComponent, ContainerSe
         '''
         return projects
 
+    def _load_projects_job(self):
+        self._db_job = RecurrentJob(interval = timedelta(seconds=self.DB_INTERVAL_IN_SECONDS, execute=self._load_projects))
+        self._db_job.start()
+
     def _load_projects(self):
-        '''
-            Run as a Thread 
-        '''
         self._projects_list = self._db.getProjects()
     
     def _get_observing_mode(self):
         return self._observing_mode.getState()
 
     def _is_observe_available(self):
-        return _get_observing_mode == Observatory.Service.AVAILABLE 
+        return self._get_observing_mode == Observatory.Service.IDLE 
     
+    def _make_it_happend_job(self):
+        self._scheduling_job = RecurrentJob(interval = timedelta(seconds=self.SCHEDULING_INTERVAL_IN_SECONDS, execute=self._make_it_happend))
+        self._scheduling_job.start()
+
     def _make_it_happend(self):
-        '''
-            Run as a Thread 
-        '''
         projects = self._get_priorized_projects(self._project_list) 
         
         if self._is_observe_available() and projects:
             project = projects[0]
-
+            self._observing_mode.observe(project)
             
-        
