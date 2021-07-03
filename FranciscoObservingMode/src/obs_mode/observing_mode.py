@@ -10,14 +10,14 @@ from Acspy.Servants.ContainerServices import ContainerServices
 # # Basic component lifecycle (initialize, execute, cleanUp and aboutToAbort methods)
 from Acspy.Servants.ComponentLifecycle import ComponentLifecycle
  
-# Error definitions for catching exceptions
-import ServiceErrImpl
-import ObservingModeErrImpl
-import DatabaseErrImpl
+#Error definitions for catching exceptions
+# import ServiceErr
+# import <Interface>Err
  
 # # Error definitions for creating and raising exceptions
 import ServiceErrImpl
-# import <Interface>ErrImpl
+import ObservingModeErrImpl
+import DatabaseErrImpl
 
 # custom packages
 import time
@@ -25,7 +25,7 @@ import random
 from telescope_state import TelescopeState
 
 # raising exceptions
-# raise <Interface>ErrImpl.<ExceptionName>ExImpl().get<ExceptionName>Ex()
+# raise <Interface>ErrImpl.<ExceptionName>ExImpl()
 
 
 class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, ContainerServices, ComponentLifecycle):
@@ -44,9 +44,9 @@ class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, Conta
         current_state = self.state.get()
 
         if current_state == 'READY':
-            raise ObservingModeErrImpl.TelescopeAlreadyStartedExImpl().getTelescopeAlreadyStartedEx()
+            raise ObservingModeErrImpl.TelescopeAlreadyStartedExImpl()
         elif current_state == 'BUSY':
-            raise ObservingModeErrImpl.TelescopeIsBusyExImpl().getTelescopeIsBusyEx()
+            raise ObservingModeErrImpl.TelescopeIsBusyExImpl()
         else:
             self.state.set('READY')
             print('Telescope is now ready.')
@@ -56,9 +56,9 @@ class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, Conta
         current_state = self.state.get()
 
         if current_state == 'STOP':
-            raise ObservingModeErrImpl.TelescopeAlreadyStoppedExImpl().getTelescopeAlreadyStoppedEx()
+            raise ObservingModeErrImpl.TelescopeAlreadyStoppedExImpl()
         elif current_state == 'BUSY':
-            raise ObservingModeErrImpl.TelescopeIsBusyExImpl().getTelescopeIsBusyEx()
+            raise ObservingModeErrImpl.TelescopeIsBusyExImpl()
         else:
             self.state.set('STOP')
             print('Telescope has stopped.')
@@ -68,9 +68,9 @@ class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, Conta
         current_state = self.state.get()
 
         if current_state == 'BUSY':
-            raise ObservingModeErrImpl.TelescopeIsBusyExImpl().getTelescopeIsBusyEx()
+            raise ObservingModeErrImpl.TelescopeIsBusyExImpl()
         elif current_state == 'STOP':
-            raise ObservingModeErrImpl.TelescopeIsStoppedExImpl().getTelescopeIsStoppedEx()
+            raise ObservingModeErrImpl.TelescopeIsStoppedExImpl()
         else:
             self.state.set('BUSY')
             print('Telescope is now busy.')
