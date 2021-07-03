@@ -22,18 +22,20 @@ import DatabaseErrImpl
 # custom packages
 import time
 import random
-from telescope_state import TelescopeState
+# from telescope_state import TelescopeState
 
 # raising exceptions
 # raise <Interface>ErrImpl.<ExceptionName>ExImpl()
 
+#From IDL <Module>::<EnumName>::<VALUE>
+import Observatory
 
 class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, ContainerServices, ComponentLifecycle):
     """This component abstracts an observation."""
 
     def __init__(self):
         # initializes with state = STOP
-        self.state = TelescopeState()
+        self.state = Observatory.ObservingMode.STOP
 
     def getState(self):
         """Returns the telescope's state object."""
@@ -41,40 +43,34 @@ class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, Conta
 
     def startTelescope(self):
         """Turns the telescope on."""
-        current_state = self.state.get()
-
-        if current_state == 'READY':
+        if self.state == Observatory.ObservingMode.READY:
             raise ObservingModeErrImpl.TelescopeAlreadyStartedExImpl()
-        elif current_state == 'BUSY':
+        elif self.state == Observatory.ObservingMode.BUSY:
             raise ObservingModeErrImpl.TelescopeIsBusyExImpl()
         else:
-            self.state.set('READY')
+            self.state = Observatory.ObservingMode.READY
             print('Telescope is now ready.')
         
     def stopTelescope(self):
         """Turns the telescope off."""
-        current_state = self.state.get()
-
-        if current_state == 'STOP':
+        if self.state == Observatory.ObservingMode.STOP:
             raise ObservingModeErrImpl.TelescopeAlreadyStoppedExImpl()
-        elif current_state == 'BUSY':
+        elif self.state == Observatory.ObservingMode.BUSY:
             raise ObservingModeErrImpl.TelescopeIsBusyExImpl()
         else:
-            self.state.set('STOP')
+            self.state = Observatory.ObservingMode.STOP
             print('Telescope has stopped.')
 
     def observe(self, uid):
         """Issues an observation."""
-        current_state = self.state.get()
-
-        if current_state == 'BUSY':
+        if self.state == Observatory.ObservingMode.BUSY:
             raise ObservingModeErrImpl.TelescopeIsBusyExImpl()
-        elif current_state == 'STOP':
+        elif self.state == Observatory.ObservingMode.STOP:
             raise ObservingModeErrImpl.TelescopeIsStoppedExImpl()
         else:
-            self.state.set('BUSY')
+            self.state = Observatory.ObservingMode.BUSY
             print('Telescope is now busy.')
             print(f'Observing the night sky in awe for project {uid}...')
             time.sleep(random.choice([3, 7]))
             print('Observation finished.')
-            self.state.set('READY')
+            self.state = Observatory.ObservingMode.READY
