@@ -1,9 +1,7 @@
+import ServiceErr
+
+
 # service exceptions
-class ServiceErr(Exception):
-    """Base class for ACS service exceptions."""
-    pass
-
-
 class ServiceIsNotOnlineEx(ServiceErr):
     """Raised when service is not online."""
     pass

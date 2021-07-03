@@ -1,21 +1,21 @@
 # # Client stubs and definitions, such as structs, enums, etc.
 # import <Module>
 # # Skeleton infrastructure for server implementation
-# import <Module>__POA
+import Observatory__POA
  
 # # Base component implementation
-# from Acspy.Servants.ACSComponent import ACSComponent
+from Acspy.Servants.ACSComponent import ACSComponent
 # # Services provided by the container to the component
-# from Acspy.Servants.ContainerServices import ContainerServices
+from Acspy.Servants.ContainerServices import ContainerServices
 # # Basic component lifecycle (initialize, execute, cleanUp and aboutToAbort methods)
-# from Acspy.Servants.ComponentLifecycle import ComponentLifecycle
+from Acspy.Servants.ComponentLifecycle import ComponentLifecycle
  
 # # Error definitions for catching exceptions
-# import ServiceErr
+import ServiceErr
 # import <Interface>Err
  
 # # Error definitions for creating and raising exceptions
-# import ServiceErrImpl
+import ServiceErrImpl
 # import <Interface>ErrImpl
 
 # custom packages
