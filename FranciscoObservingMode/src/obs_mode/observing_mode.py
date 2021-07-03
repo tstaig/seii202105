@@ -14,7 +14,8 @@ import time
 import random
 
 
-class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, ContainerServices, ComponentLifecycle):
+class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent,
+    ContainerServices, ComponentLifecycle):
     """This component abstracts an observation."""
 
     def __init__(self):
@@ -58,3 +59,4 @@ class ObservingModeComponent(Observatory__POA.ObservingMode, ACSComponent, Conta
             time.sleep(random.choice([3, 7]))
             print('Observation finished.')
             self.state = Observatory.ObservingMode.READY
+            print('Telescope is now ready.')

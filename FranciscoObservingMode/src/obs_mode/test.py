@@ -1,8 +1,11 @@
 from observing_mode import ObservingModeComponent
 
-print('Testing happy path')
+
 # initialize
 obs = ObservingModeComponent()
+print(obs.__doc__)
+
+print('Testing happy path')
 # start
 obs.startTelescope()
 # observe
@@ -10,7 +13,6 @@ uid = 3
 obs.observe(uid)
 # stop
 obs.stopTelescope()
-
 
 print('Testing exceptions')
 # initialize
